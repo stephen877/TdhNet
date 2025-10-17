@@ -1,0 +1,256 @@
+Hydraulic Modeling Articles
+Pump Speed Controls
+Pump Speed Controls allow the speed of a pump to be controlled automatically to maintain a target hydraulic grade at a specified junction node. In addition to specifying the pump, the junction node and the target grade, pump speed controls can specify the maximum speed, the minimum speed, the tolerance for the target grade agreement, whether the control is active and the priority for the control.
+
+A Pump Speed Control can be specified for any pump and any node, however, caution should be used with regard to:	
+
+The pump should have a strong influence on the grade at the specified node and the pump should be able to operate in a range that can meet the target grade. The pump will not operate above the specified maximum speed. The minimum speed may be positive or negative:
+
+If positive, the pump will operate at the minimum speed even if that speed will exceed the target grade. 
+
+If negative and the (absolute) minimum speed will exceed the target grade, the pump will be turned off. 
+
+A specified node should not be influenced by multiple Pump Speed Controls. If this is a possibility, the priority specification can be used to determine which control will have the final say. 
+
+The target grade and the active status for a Pump Speed Control can be changed at any time during an extended period simulation by using Change Values within a Change Situation for the active ChangeSet.
+
+
+
+Pressure Adjusted Demands
+When pressure is below a specified value or above a specified value demands can be automatically adjusted by creating a Pressure Dependency record. A Pressure Dependency record can apply to all junction nodes or just to junctions nodes belonging to a specified group. To create or edit a Pressure Dependency record, select System | Pressure/Demand Data from the Main menu. A Pressure Dependency record has the following fields:
+
+• Dependency ID: identifies the record.
+
+• Active: determines whether the dependency will be used.
+
+• Pressure FullQ: the pressure below which demands will be adjusted downward. If zero, no demand adjustment for low pressure will be applied.
+
+• Pressure NoQ: the pressure at and below which there will be no demand. Linear interpolation is used to determine the demand between Pressure FullQ and PressureNoQ.
+
+• Pressure Tolerance: the required agreement, in pressure units, between the calculated pressure and the pressured used to determine the demand.
+
+• Pressure High: the pressure above which demand will be adjusted upward. If zero, no demand adjustment for high pressure will be applied.
+
+• Slope High: the factor used to increase demand for every unit of pressure above Pressure High.
+
+• Junction Group: the junction group to which the dependency will apply. If blank, the dependency will apply to all junctions.
+
+See a technical discussion of how Pressure Adjusted Demands are implemented.
+
+Fire Flow Analysis	 	
+Of course, fire flow analysis could always be accomplished with TdhNet by setting the demand in Node data or by creating a demand change in Change data. But now it is even easier. With the Fire Flow analysis tool you can determine the available flow at your specified residual pressure for any node in the system at any point in a solution sequence, just by right clicking on the node. You can also determine the available pressure at your specified flow.
+
+The hydraulic results for the entire system, incorporating the fire flow, are available for your inspection and analysis using all the tools available with TdhNet. You can examine any number of fire flow conditions at any point in a solution sequence (e.g. at any time during an EPS run). Once you are finished examining fire flow results, you can resume the solution sequence, which is unaffected by the fire flow analysis. (e.g. while the fire flow analysis will determine the effect on flows to and from storage, the storage levels and subsequent results will not be affected by the fire flow analysis).
+
+So, if your job involves evaluating fire flows, your job just got easier.
+
+Roughness Parameters for both Hazen-Williams and Darcy-Weisbach
+The Darcy-Weisbach friction formula is considered to be applicable within a wider range of flow conditions than the Hazen-Williams formula. Most hydraulic models allow the use of either formula, but the roughness parameters are not compatible and other models can store only one parameter. TdhNet can now store roughness parameters for both formulas for every pipe. The appropriate parameter will be automatically accessed depending on the friction formula being used. 
+
+But, many model users still have the problem that they don't have the roughness parameter for the Darcy-Weisbach formula. TdhNet solves that problem too. When you access data that has only the roughness parameter for Hazen-Williams, TdhNet will automatically calculate the roughness parameter for Darcy-Weisbach, leaving the Hazen-Williams parameter unchanged. So now you can easily model with either formula and even compare results between the 2 formulas.
+
+ As always, the goal of TdhNet is to give the engineer the best information for making engineering decisions, and using the best friction formula helps achieve that goal. 
+
+Importing Data
+Since TdhNet uses an open and documented database for data storage, importing data from various sources is fairly easy. Tools have been developed to import data from GIS sources such as shapefiles and from other hydraulic models, such as Epanet. Please contact TdhNet.com to learn how your existing water system data can be used in TdhNet.
+
+Pumping Cost Analysis 
+Pumping stations may be created that contain pumps or describe a relationship between other pumping stations. Pumping stations allow:
+
+Charting of composite performance/efficiency curves for any combination of pumps within a station.
+
+The specification of the energy cost for the station and any stations included in a relationship. The energy cost may be changed for any time period.
+
+A Pumping Cost Analysis will calculate, at each time step for each station, pump and the system:
+
+efficiency
+
+electrical power
+
+energy consumed
+
+energy cost per volume
+
+volume pumped from the start
+
+power cost from the start
+
+The results of a Pumping Cost Analysis can be stored in the results database and displayed in tabular format through a sophisticated and customizable database query builder and through customizable charts. 
+
+February 2, 2018
+
+Map Options
+TdhNet provides many options to customize your network map, including:
+
+any number of background raster (jpg, png, etc) images calibrated to your map coordinates and set to any transparency.
+
+a background TdhCad drawing containing annotations, symbols and any other desired drawing elements. Legends can be created and edited using a legend editor.
+
+a user defined grid with labeled and locatable cells. 
+
+black or white background with appropriate default colors and exportable drawing files.
+
+an overview window that allows panning within the main window.
+
+graphical data entry to:
+
+create a node at any desired location.
+
+extend a pipe from any node, adding any number of pipe points, and ending at a new or existing node.
+
+split a pipe at any point, creating a new node and a new pipe. 
+
+move an existing  node, bringing along all connected pipes.
+
+undo and redo any of the graphical data entry operations.
+
+model results can be displayed by:
+
+coloring pipes and nodes and changing the width of pipes.
+
+generating contours lines of different colors for hydraulic grade, pressure, water quality or elevation. 
+
+automatically generated charts for time varying parameters. 
+
+ JUNE 18, 2017
+
+Node Referential Integrity
+TdhNet now provides referential integrity for nodes. What does that mean?
+
+If a pipe references a node that does not yet exist, the node will be created.
+
+A node will not be deleted if referenced by a pipe.
+
+If a pipe referencing a dead end node is deleted, the node will be deleted (at the user’s option).
+
+If a node ID is changed, all pipe references to the node will remain intact.
+
+Node referential integrity makes managing hydraulic model data a little easier, matching well with the many other user friendly features provided with TdhNet. 
+
+MAY 5, 2016
+
+Who's In Control?
+TdhNet has long provided the ability to pause a solution sequence at any time to view results and edit the Change data that will affect subsequent solutions. Change data can modify any data at any time during a solution sequence, including the active status of any number of Rules and Rule Sets. That's powerful stuff, but now TdhNet provides the ability to dynamically modify the active status of any pipe, pump, valve or rule belonging to an active rule set. Just right click on the results grid for any of these elements and one of the options in the popup menu will allow the active status to be modified. No need to even edit change data, the status change is only 2 clicks away.
+
+But what about the road untaken?  What if that additional pump had not been operated, how much energy would have been saved and how would system pressures have been affected? Any time the solution sequence is paused, the current results can be saved to the database to allow not only detailed analysis using powerful sql queries and hydraulic contour mapping, but also to allow the later resumption of the solution sequence from that point.
+
+Who's in control? You are, when you're using TdhNet for water system hydraulic analysis.
+
+MARCH 9, 2016
+
+TdhNetAPI with Database Access
+The latest release of the TdhNet Application Program Interface (API) provides access to much of the functionality in the TdhNet hydraulic network model for 3rd party programs. The API now includes the ability to store and retrieve network data and solution results from SqLite databases along with the ability to:
+
+Read and write Epanet and TdhNet input files.
+
+Solve the hydraulic calculations for flows, pressures and water quality parameters.
+
+Have full access to network data and solution results
+
+Store and retrieve solutions results from an SqLite database for any application
+
+This functionality is provided in the form of executable libraries and is accessed through various C++ classes and functions. Executable libraries are provided for both Linux and MSWindows, and created by the following compilers :
+
+Linux – gnu
+
+MS Win -mingw and vc
+
+A simple demonstration program is provided as documented source code in TdhDemo.cpp along with all the required supporting files. All these files and libraries can be downloaded from TdhNet.com, via the Downloads page.
+
+The TdhNet API may be used for program development and academic research free of charge but may not be redistributed or used for commercial purposes without the consent of the copyright owner, Tim Hirrel (timhirrel@tdhnet.com)
+
+FEBRUARY 2, 2016
+
+Fast and Free!
+TdhNet has been extensively rewritten, is now blazingly fast and totally free.
+
+Any size network can be loaded into the SQL database, displayed, edited and solved with unprecedented speed.
+
+Results can be inspected after each solution, saved into the database, queried and displayed graphically with contours and colors.
+
+Model theory and use is explained in the 34 page user's manual and the numerous articles downloadble from the TdhNet library.
+
+Totally free, unlimited versions are available for both MS Windows and Linux.
+
+Note – an updated version of the TdhNetAPI is in the works.
+
+
+ JUNE 23, 2012
+
+Unlimited ID Size
+The Tdhnet family of hydraulic network software now has unlimited id sizes for all entities. The API has been reworked to provide much better type safety in the function parameters and return values. The Tdhnet6 demo programs now solve networks up to 200 pipes. Take one for a test drive on MSWin or Linux.
+
+MARCH 10, 2011
+
+Contours!
+Contour lines provide one of the best tools for visualizing and understanding hydraulic model results. Tdhnet6 now provides the ability to generate contour lines for:
+
+> hydraulic grades
+
+> pressures
+
+> water quality
+
+> node elevations
+
+Rather than examining tables full of data, the user can instantly see how model results change from one scenario to another. And Tdhnet6 still provides the best options for setting scenarios to accomplish a desired modeling objective. All contour functionality is provided within Tdhnet6, no additional software is required.
+
+The user may select exactly which nodes are used to generate contour lines through database queries. Nodes may be grouped by pressure zone or any other user defined criteria and individual nodes may be flagged for inclusion or exclusion. Right clicking on a contour line will display the contour value.
+
+The user may define the contour interval, the number of lines between major contours and the line color. A contour script is automatically generated and may be saved and retrieved for later use. A given script may be executed for multiple solutions within an EPS sequence, so the user may watch how the contour line for a selected water quality value changes over time, for example.
+
+Check out the latest version of Tdhnet6 and see how contour lines can improve your understanding of model results.
+
+Tdhnet6_demo is available as a free download for both MS Windows and Linux. You can use it to import any data and generate elevation contour lines; it will solve and generate contours based on results for networks up to 200 pipes.
+
+
+Important Points to Consider When Selecting a Hydraulic Network Model:
+Tdhnet6 and TdhLite produce correct results when other models don't. Specifically, when a closed pipe isolates demand, other models will incorrectly supply the demand through the closed pipe. Under no circumstances will Tdhnet6 or TdhLite route flow through a closed pipe and models that do should be discarded. (For a more complete discussion of the matter, see the article “Lossless Network Skeletonization” on the Downloads page).
+
+Tdhnet6 and TdhLite automatically improve the required solution accuracy when necessary to ensure that hydraulic control valves are properly set, again producing correct results when other models do not.
+
+In Tdhnet6 and TdhLite, the user may set tank level change limits. This is a unique and important feature that prevents the common problem of wild fluctuations in tank levels during the successive solutions of an Extended Period Simulations (EPS). A change limit may be applied to any individual tank and a default change limit can be applied to all tanks without an individual limit.
+
+In Tdhnet6, results from any solution can be saved in a database for later analysis using a sophisticated query builder or any user specified SQL query. Results from an EPS may be used to restart the solution sequence from any selected time, with new scenario parameters applied. This can be very useful for establishing a base line water age situation and and evaluating different scenarios from that base line, for example.
+
+Since Tdhnet6 and TdhLite contain an underlying CAD system, sophisticated graphical data entry features are provided without additional software, including:
+
+> Automatic sizing of network map elements based on the proximity to other elements.
+
+> The ability to insert a new node anywhere in an existing pipe.
+
+> The ability to move nodes and automatically bring along connected pipes.
+
+> The ability to find any map element based on partial matching of a note string associated with the element.
+
+> The ability to the change color and width of map elements based on sophisticated queries of model results and input data. (Tdhnet6 only).
+
+> The ability to generate contour lines for hydraulic grades, pressures, water quality and elevations, providing an invaluable tool in the visualization and understanding of model results. (Tdhnet6 only).
+
+
+In summary, Tdhnet6 and TdhLite provide many important advantages over other models and should be seriously considered for the critical task of hydraulic network modeling.
+
+AUGUST 28, 2010
+
+Tdhnet6 – the power of SQL
+After the breakthrough product of the freely available TdhLite, the next advancement in cross-platform hydraulic modeling software is now available.
+
+Tdhnet6 combines the power of a relational database and SQL with the advanced hydraulic solution engine from the TdhnetAPI and the editing and graphical interface from TdhLite.
+
+> Input data for any number of networks can be stored and retrieved from a set of database tables contained in a single file.
+
+>Any number of solution results can be stored and queried from a set of database tables contained in a single file.
+
+>Using the query builder or any user defined query, a series of solutions from an EPS can be stepped through, generating query results for each solution.
+
+> Map colors and line widths can be modified based on model results, again using a sophisticated query builder with the ability to step through EPS solutions.
+
+> Queries may be saved and retrieved based on descriptive text and query results may be sent to CSV files.
+
+> Data can be extracted from a network to create a new network and multiple networks can be merged into a new network.
+
+> Stored EPS results can be used to restart a solution sequence with new situational parameters. 
+
+The user's manual for Tdhnet6 may be freely downloaded from the Tdhnet Library. Users familiar with TdhLite will be immediately comfortable with Tdhnet6 and need only become familiar with the use of the database to unleash the power of SQL and the many new features.
+
+Tdhnet6 for either the MS Windows or the Linux operating system is available under the terms specified in License Fees (click on link at top of page).
